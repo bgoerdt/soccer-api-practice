@@ -1,0 +1,56 @@
+﻿@section scripts {
+	<script src="~/Scripts/angular.min.js"></script>
+	<script src="~/Scripts/app.js"></script>
+}
+
+<div class="page-header">
+	<h1>World Cup Soccer API</h1>
+</div>
+
+<div ng-controller='SoccerController as soccer'>
+	<div class="list-group">
+		<div class="list-group-item" ng-repeat="team in soccer.teams">
+			<h1> {{team.Name}} </h1>
+			<section ng-controller="TabController as tab">
+				<ul class="nav nav-pills">
+					<li ng-class="{ active:tab.isSelected(1)}">
+						<a href ng-click="tab.selectTab(1)">Details</a>
+					</li>
+					<li ng-class="{ active:tab.isSelected(2)}">
+						<a href ng-click="tab.selectTab(2)">Players</a>
+					</li>
+					<li ng-class="{ active:tab.isSelected(3)}">
+						<a href ng-click="tab.selectTab(3) ">Discussion</a>
+					</li>
+				</ul>
+
+				<div class="panel" ng-show="tab.isSelected(1)">
+					<p>Coach: {{team.Coach}}</p>
+					<p>FIFA Rank: {{team.Rank}}</p>
+					<p>Confederation: {{team.Confederation}}</p>
+					<p>Nickname: {{team.Nickname}}</p>
+				</div>
+				<div class="panel" ng-show="tab.isSelected(2)">
+					<div class="list-group" ng-controller="PlayerController as playerCtrl">
+						<div class="list-group-item" ng-repeat="player in playerCtrl.players" ng-show="player.TeamId === team.Id">
+							<h4>{{player.Name}}, #{{player.Number}}</h4>
+							<p>{{player.Position}}</p>
+						</div>
+					</div>
+				</div>
+				<div class="panel" ng-show="tab.isSelected(3)" ng-controller="CommentController as commentCtrl">
+					<blockquote ng-repeat="comment in commentCtrl.comments" ng-show="comment.TeamId === team.Id">
+						{{comment.Body}}
+						<p>--{{comment.Author}}</p>
+					</blockquote>
+					<form name="commentForm" ng-submit="commentForm.$valid && commentCtrl.addComment(team)" novalidate>
+						<textarea ng-model="commentCtrl.comment.Body" required></textarea><br /><br />
+						<label>by:</label>
+						<input type="email" ng-model="commentCtrl.comment.Author" required/>
+						<input type="submit" value="Submit" />
+					</form>
+				</div>
+			</section>
+		</div>
+	</div>
+</div>
