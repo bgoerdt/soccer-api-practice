@@ -1,30 +1,21 @@
-﻿var app = angular.module('soccer', []);
-	
-app.controller('SoccerController', [ '$scope', '$http', function ($scope, $http) {
-	$scope.teams = [];
+﻿var soccerApp = angular.module('soccerApp', []);
 
+soccerApp.controller('TeamController', function ($scope, $http) {
 	$http.get('/api/Teams').success(function (data) {
 		$scope.teams = data;
-		alert("teams loaded");
 	});
-}]);
+});
 
-app.controller('PlayerController', [ '$scope', '$http', function ($scope, $http) {
-	$scope.players = [];
-
+soccerApp.controller('PlayerController', function ($scope, $http) {
 	$http.get('/api/Players').success(function (data) {
 		$scope.players = data;
 	});
-}]);
+});
 
-app.controller("CommentController", [ '$scope', '$http', function ($scope, $http) {
-	$scope.comments = [];
-	$scope.comment = {};
-	$scope.message = "n/a";
-
+soccerApp.controller('CommentController', function ($scope, $http) {
+	$scope.newComment = {};
 	$http.get('/api/Comments').success(function (data) {
 		$scope.comments = data;
-		alert("comments loaded");
 	});
 
 	$scope.getComments = function () {
@@ -41,16 +32,16 @@ app.controller("CommentController", [ '$scope', '$http', function ($scope, $http
 			$scope.getComments();
 		});
 	};
-}]);
+});
 
-app.controller("TabController", [ '$scope', function ($scope) {
-	$scope.tab = 1;
-		
-	$scope.selectTab = function (setTab) {
-		$scope.tab = setTab;
+soccerApp.controller('TabController', function ($scope) {
+	$scope.selectedTab = 1;
+
+	$scope.isSelected = function (tab) {
+		return $scope.selectedTab == tab;
 	};
 
-	$scope.isSelected = function (checkTab) {
-		return $scope.tab === checkTab;
+	$scope.selectTab = function (tab) {
+		$scope.selectedTab = tab;
 	};
-}]);
+});
