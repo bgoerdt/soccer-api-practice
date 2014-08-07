@@ -11,6 +11,7 @@
 	<div class="list-group" ng-controller='TeamController' style="width:300px">
 		<div class="list-group-item" ng-repeat="team in teams">
 			<h1> {{team.Name}} </h1>
+
 			<section ng-controller="TabController">
 				<ul class="nav nav-pills">
 					<li ng-class="{ active:isSelected(1)}">
@@ -23,7 +24,9 @@
 						<a href ng-click="selectTab(3)">Discussion</a>
 					</li>
 				</ul>
+
 				<div class="panel" style="height: 200px; overflow: auto">
+
 					<div ng-show="isSelected(1)">
 						<p></p>
 						<p>Coach: {{team.Coach}}</p>
@@ -31,6 +34,7 @@
 						<p>Confederation: {{team.Confederation}}</p>
 						<p>Nickname: {{team.Nickname}}</p>
 					</div>
+
 					<div ng-show="isSelected(2)">
 						<div class="list-group" ng-controller="PlayerController">
 							<div class="list-group-item" ng-repeat="player in players" ng-show="player.TeamId === team.Id">
@@ -39,6 +43,7 @@
 							</div>
 						</div>
 					</div>
+
 					<div ng-show="isSelected(3)" ng-controller="CommentController">
 						<blockquote ng-repeat="comment in comments" ng-show="comment.TeamId === team.Id">
 							{{comment.Body}}
@@ -51,8 +56,10 @@
 							<input type="submit" value="Submit" />
 						</form>
 					</div>
+
 				</div>
 			</section>
+
 		</div>
 	</div>
 </div>
